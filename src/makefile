@@ -1,4 +1,4 @@
-NAME := ../Services\ Watcher
+NAME := ../ServicesWatcher
 TYPE := APP
 SRCS := ServiceListItem.cpp \
 		MainBListView.cpp \
