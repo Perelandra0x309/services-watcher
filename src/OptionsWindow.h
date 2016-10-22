@@ -27,10 +27,9 @@ public:
 			AppOptions		GetOptions();
 			void			GetOptionsToSave(BMessage*);
 private:
-	BRadioButton			*fOneLineRB, *fTwoLinesRB;
 	BPopUpMenu				*fIconSizeMenu, *fFontSizeMenu, *fWindowLookMenu;
 	BMenuField				*fIconSizeMF, *fFontSizeMF, *fWindowLookMF;
-	BCheckBox				*fFloatCB;
+	BCheckBox				*fLinesCB, *fFloatCB;
 	BButton					*fAboutB;
 	void					_SetSavedOptions(BMessage*);
 };

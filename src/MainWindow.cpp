@@ -6,7 +6,7 @@
 
 MainWindow::MainWindow(BRect size, window_look look, window_feel feel, AppOptions options)
 	:
-	BWindow(size, "Services Watcher", look, feel, B_NOT_ZOOMABLE)
+	BWindow(size, "ServicesWatcher", look, feel, B_NOT_ZOOMABLE)
 {
 	Lock();
 	fView = new MainView(Bounds(), options);

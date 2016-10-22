@@ -6,15 +6,11 @@
 
 OptionsWindow::OptionsWindow(BMessage* savedOptions)
 	:
-	BWindow(BRect(), "Services Watcher Options", B_TITLED_WINDOW,
+	BWindow(BRect(), "ServicesWatcher Options", B_TITLED_WINDOW,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE)
 {
 	Lock();
-	fOneLineRB = new BRadioButton("One Line", "Show application name and status on one line",
-		new BMessage(LINES_OPTION_CHANGED));
-	fTwoLinesRB = new BRadioButton("Two Lines", "Show application name and status on two lines",
-		new BMessage(LINES_OPTION_CHANGED));
-	
+
 	fIconSizeMenu = new BPopUpMenu("Icon Size Menu");
 	fIconSizeMenu->AddItem(new BMenuItem("No Icon", new BMessage(ICON_OPTION_CHANGED)));
 	fIconSizeMenu->AddItem(new BMenuItem("16", new BMessage(ICON_OPTION_CHANGED)));
@@ -23,7 +19,7 @@ OptionsWindow::OptionsWindow(BMessage* savedOptions)
 	fIconSizeMenu->AddItem(new BMenuItem("48", new BMessage(ICON_OPTION_CHANGED)));
 	fIconSizeMenu->AddItem(new BMenuItem("64", new BMessage(ICON_OPTION_CHANGED)));
 	fIconSizeMF = new BMenuField("Icon Size Field", "Icon size:", fIconSizeMenu);
-	
+
 	fFontSizeMenu = new BPopUpMenu("Font Size Menu");
 	fFontSizeMenu->AddItem(new BMenuItem("System size", new BMessage(FONT_OPTION_CHANGED)));
 	BString fontSize;
@@ -34,30 +30,29 @@ OptionsWindow::OptionsWindow(BMessage* savedOptions)
 		fFontSizeMenu->AddItem(new BMenuItem(fontSize.String(), new BMessage(FONT_OPTION_CHANGED)));
 	}
 	fFontSizeMF = new BMenuField("Font Size Field", "Font size:", fFontSizeMenu);
-	
+
 	fWindowLookMenu = new BPopUpMenu("Window Look Menu");
-	fWindowLookMenu->AddItem(new BMenuItem("Normal Title Bar", new BMessage(LOOK_OPTION_CHANGED)));
-	fWindowLookMenu->AddItem(new BMenuItem("Small Title Bar", new BMessage(LOOK_OPTION_CHANGED)));
-	fWindowLookMenu->AddItem(new BMenuItem("No Title Bar", new BMessage(LOOK_OPTION_CHANGED)));
-	fWindowLookMenu->AddItem(new BMenuItem("No Border", new BMessage(LOOK_OPTION_CHANGED)));
-	fWindowLookMF = new BMenuField("Window Look Field", "Window Look:", fWindowLookMenu);
-	
-	fFloatCB = new BCheckBox("Float Above All Windows", new BMessage(FLOAT_OPTION_CHANGED));
-	
+	fWindowLookMenu->AddItem(new BMenuItem("Normal title bar", new BMessage(LOOK_OPTION_CHANGED)));
+	fWindowLookMenu->AddItem(new BMenuItem("Small title bar", new BMessage(LOOK_OPTION_CHANGED)));
+	fWindowLookMenu->AddItem(new BMenuItem("No title bar", new BMessage(LOOK_OPTION_CHANGED)));
+	fWindowLookMenu->AddItem(new BMenuItem("No border", new BMessage(LOOK_OPTION_CHANGED)));
+	fWindowLookMF = new BMenuField("Window Look Field", "Window look:", fWindowLookMenu);
+
+	fLinesCB = new BCheckBox("Show name and status on one line", new BMessage(LINES_OPTION_CHANGED));
+
+	fFloatCB = new BCheckBox("Float above all windows", new BMessage(FLOAT_OPTION_CHANGED));
+
 	fAboutB = new BButton("About", "About" B_UTF8_ELLIPSIS, new BMessage(B_ABOUT_REQUESTED));
-	
-	fOneLineRB->SetTarget(be_app);
-	fTwoLinesRB->SetTarget(be_app);
+
+	fLinesCB->SetTarget(be_app);
 	fIconSizeMenu->SetTargetForItems(be_app);
 	fFontSizeMenu->SetTargetForItems(be_app);
 	fWindowLookMenu->SetTargetForItems(be_app);
 	fFloatCB->SetTarget(be_app);
 	fAboutB->SetTarget(be_app);
-	
+
 	SetLayout(new BGroupLayout(B_VERTICAL));
 	AddChild(BGroupLayoutBuilder(B_VERTICAL, 3)
-		.Add(fOneLineRB)
-		.Add(fTwoLinesRB)
 		.Add(BGroupLayoutBuilder(B_HORIZONTAL)
 			.Add(fIconSizeMF)
 			.AddGlue()
@@ -70,19 +65,23 @@ OptionsWindow::OptionsWindow(BMessage* savedOptions)
 			.Add(fWindowLookMF)
 			.AddGlue()
 		)
+		.Add(BGroupLayoutBuilder(B_HORIZONTAL)
+			.Add(fLinesCB)
+			.AddGlue()
+		)
 		.Add(fFloatCB)
 		.Add(BGroupLayoutBuilder(B_HORIZONTAL)
 			.AddGlue()
 			.Add(fAboutB)
 		)
 		.AddGlue()
-		.SetInsets(3, 3, 3, 3)
+		.SetInsets(B_USE_WINDOW_SPACING, B_USE_WINDOW_SPACING, B_USE_WINDOW_SPACING, B_USE_WINDOW_SPACING)
 	);
-	
+
 	BSize size = ChildAt(0)->PreferredSize();
 	ResizeTo(size.width, size.height);
 	_SetSavedOptions(savedOptions);
-	
+
 	Unlock();
 }
 
@@ -119,10 +118,8 @@ OptionsWindow::Show(BRect mainWindowFrame)
 bool
 OptionsWindow::GetDrawTwoLines()
 {
-	if(fOneLineRB->Value())
+	if(fLinesCB->Value())
 		return false;
-	else if(fTwoLinesRB->Value())
-		return true;
 	else
 		return true;
 }
@@ -206,7 +203,7 @@ void
 OptionsWindow::GetOptionsToSave(BMessage* message)
 {
 	message->AddBool(NAME_LINES_OPTION, GetDrawTwoLines());
-	
+
 	int8 markedItem;
 	BMenuItem *item = fIconSizeMenu->FindMarked();
 	if(item != NULL)
@@ -214,21 +211,21 @@ OptionsWindow::GetOptionsToSave(BMessage* message)
 	else
 		markedItem = 3;
 	message->AddInt8(NAME_ICON_OPTION, markedItem);
-	
+
 	item = fFontSizeMenu->FindMarked();
 	if(item != NULL)
 		markedItem = fFontSizeMenu->IndexOf(item);
 	else
 		markedItem = 0;
 	message->AddInt8(NAME_FONT_OPTION, markedItem);
-	
+
 	item = fWindowLookMenu->FindMarked();
 	if(item != NULL)
 		markedItem = fWindowLookMenu->IndexOf(item);
 	else
 		markedItem = 0;
 	message->AddInt8(NAME_LOOK_OPTION, markedItem);
-	
+
 	message->AddBool(NAME_FEEL_OPTION, fFloatCB->Value());
 }
 
@@ -237,37 +234,36 @@ OptionsWindow::GetOptionsToSave(BMessage* message)
 void
 OptionsWindow::_SetSavedOptions(BMessage *options)
 {
+	BMenuItem *item = NULL;
+
 	bool boolValue;
 	status_t result = options->FindBool(NAME_LINES_OPTION, &boolValue);
 	if(result != B_OK)
 		boolValue = true;
-	if(boolValue)
-		fTwoLinesRB->SetValue(true);
-	else
-		fOneLineRB->SetValue(true);
-	
+	fLinesCB->SetValue(!boolValue);
+
 	int8 markedItem;
 	result = options->FindInt8(NAME_ICON_OPTION, &markedItem);
 	if(result != B_OK)
 		markedItem = 3;
-	BMenuItem *item = fIconSizeMenu->ItemAt(markedItem);
+	item = fIconSizeMenu->ItemAt(markedItem);
 	if(item != NULL)
 		item->SetMarked(true);
-	
+
 	result = options->FindInt8(NAME_FONT_OPTION, &markedItem);
 	if(result != B_OK)
 		markedItem = 0;
 	item = fFontSizeMenu->ItemAt(markedItem);
 	if(item != NULL)
 		item->SetMarked(true);
-	
+
 	result = options->FindInt8(NAME_LOOK_OPTION, &markedItem);
 	if(result != B_OK)
 		markedItem = 0;
 	item = fWindowLookMenu->ItemAt(markedItem);
 	if(item != NULL)
 		item->SetMarked(true);
-	
+
 	result = options->FindBool(NAME_FEEL_OPTION, &boolValue);
 	if(result != B_OK)
 		boolValue = false;

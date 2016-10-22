@@ -8,7 +8,7 @@
 #include <InterfaceKit.h>
 #include <StorageKit.h>
 #include <Roster.h>
-#include "IconUtils.h"
+#include <IconUtils.h>
 #include "constants.h"
 
 

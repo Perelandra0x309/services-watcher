@@ -15,16 +15,16 @@ ServiceListItem::ServiceListItem(BEntry entry, const char * sig, AppOptions *opt
 	fDrawTwoLines = options->drawTwoLines;
 	fIconSize = options->iconSize;
 	fIcon = NULL;
-	
+
 	if(!entry.Exists())
 		return;
-	
+
 	BPath path;
 	entry.GetPath(&path);
 	fName.SetTo(path.Leaf());
 	fSignature.SetTo(sig);
 	entry.GetRef(&fEntryRef);
-	
+
 	_GetIcon();
 	fInitStatus = B_OK;
 }
@@ -301,23 +301,22 @@ ServiceListItem::DrawItem(BView *owner, BRect item_rect, bool complete = false)
 	float offset_width = 0, offset_height = fFontAscent;
 	float listItemHeight = Height();
 	rgb_color backgroundColor;
-	
+
 	//background
 	if(IsSelected()) {
-		backgroundColor = ui_color(B_MENU_SELECTED_BACKGROUND_COLOR);
+		backgroundColor = ui_color(B_LIST_SELECTED_BACKGROUND_COLOR);
 	}
 	else {
 		// alternate the unselected background color
-		int listIndex = ((BListView*)owner)->IndexOf(this);
-		if(fmod(listIndex, 2))
-			backgroundColor = ui_color(B_DOCUMENT_BACKGROUND_COLOR);
-		else
-			backgroundColor = ui_color(B_CONTROL_BACKGROUND_COLOR);
+	//	int listIndex = ((BListView*)owner)->IndexOf(this);
+		backgroundColor = ui_color(B_LIST_BACKGROUND_COLOR);
+	//	if(fmod(listIndex, 2))
+	//		backgroundColor = tint_color(backgroundColor, B_DARKEN_1_TINT);
 	}
 	owner->SetHighColor(backgroundColor);
 	owner->SetLowColor(backgroundColor);
 	owner->FillRect(item_rect);
-	
+
 	//icon
 	if (fIcon) {
 		float offsetMarginHeight = floor( (listItemHeight - fIcon->Bounds().Height())/2);
@@ -333,13 +332,16 @@ ServiceListItem::DrawItem(BView *owner, BRect item_rect, bool complete = false)
 	{
 		offset_width += kTextMargin;
 	}
-	
+
 	//text
 	if(listItemHeight > fTextOnlyHeight)
 		offset_height += floor( (listItemHeight - fTextOnlyHeight)/2 );
 			// center the text vertically
 	BPoint cursor(item_rect.left + offset_width, item_rect.top + offset_height + kTextMargin);
-	owner->SetHighColor(ui_color(B_CONTROL_TEXT_COLOR));
+	if(IsSelected())
+		owner->SetHighColor(ui_color(B_LIST_SELECTED_ITEM_TEXT_COLOR));
+	else
+		owner->SetHighColor(ui_color(B_LIST_ITEM_TEXT_COLOR));
 	owner->MovePenTo(cursor.x, cursor.y);
 	owner->DrawString(fName);
 	if(fDrawTwoLines)
@@ -370,7 +372,7 @@ ServiceListItem::_UpdateHeight(const BFont *font)
 		fTextOnlyHeight = 2*fFontHeight + 3*kTextMargin;
 	else
 		fTextOnlyHeight = fFontHeight + 2*kTextMargin;
-	
+
 	if(fIcon) {
 		float iconSpacing = fIconSize + 2*kIconMargin;
 		if(iconSpacing > fTextOnlyHeight)

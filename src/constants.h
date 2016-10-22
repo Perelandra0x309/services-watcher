@@ -5,9 +5,9 @@
 #ifndef SERVICES_CONSTANTS_H
 #define SERVICES_CONSTANTS_H
 
-#define SW_version "1.0"
-static const char* app_signature = "application/x-vnd.BH-Services_Watcher";
-static const char* settings_filename = "Services_Watcher_settings";
+#define SW_version "1.0.1"
+static const char* app_signature = "application/x-vnd.BH-ServicesWatcher";
+static const char* settings_filename = "ServicesWatcher_settings";
 const int32 kIconDefaultSize = 32;
 const int kIconMargin = 2;
 const int kTextMargin = 2;

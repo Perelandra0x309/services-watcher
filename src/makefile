@@ -1,6 +1,6 @@
-NAME := ../ServicesWatcher
-TYPE := APP
-SRCS := ServiceListItem.cpp \
+NAME = ServicesWatcher
+TYPE = APP
+SRCS = ServiceListItem.cpp \
 		MainBListView.cpp \
 		MainView.cpp \
 		MainWindow.cpp \
@@ -8,10 +8,7 @@ SRCS := ServiceListItem.cpp \
 		ServicesApp.cpp
 LIBS := be stdc++.r4
 OPTIMIZE := FULL
-RSRCS := attributes.rsrc
-
-#       Specify your RDEF files, if any.
-RDEFS :=
+RDEFS = attributes.rdef
 
 #       specify additional paths to directories following the standard
 #       libXXX.so or libXXX.a naming scheme.  You can specify full paths
@@ -84,7 +81,7 @@ DRIVER_PATH :=
 OBJ_DIR := _objects
 
 #       Specify a non default placement for the target
-TARGET_DIR := .
+TARGET_DIR := ..
 
 #       If you want to see the complete build line for every file, then set this to 'true',
 #       otherwise it will tell you at the end what the build flags were.
