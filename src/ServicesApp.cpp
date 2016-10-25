@@ -22,7 +22,7 @@ ServicesApp::ServicesApp()
 		savedOptions.Unflatten(&settingsFile);
 		frameResult = savedOptions.FindRect(NAME_WINDOW_FRAME, &mainWindowRect);
 	}
-	
+
 	// Create Windows
 	fOptions = new OptionsWindow(&savedOptions);
 	AppOptions options = fOptions->GetOptions();
@@ -106,12 +106,12 @@ ServicesApp::AboutRequested()
 {
 	(new BAlert("About Services Watcher",
 				"Services Watcher version "SW_version"\n"
-				"Copyright 2010 Brian Hill\n\n"
+				"Copyright 2016 Brian Hill\n\n"
 				"This program will monitor the status of\n"
 				"system services.\n\n"
-				"Contact information and the latest version\n"
-				"of this application can be found at\n"
-				"http://www.haikuware.com", "OK"))->Go(NULL);
+				"Contact information and the latest version "
+				"of this application can be found in HaikuDepot",
+				"OK"))->Go(NULL);
 }
 
 

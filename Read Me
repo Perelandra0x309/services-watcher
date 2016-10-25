@@ -1,6 +1,6 @@
-Services Watcher
-Version 1.0
-Copyright 2010 by Brian Hill
+ServicesWatcher
+Version 1.0.1
+Copyright 2016 by Brian Hill
 
 
 What does this application do?
@@ -34,6 +34,10 @@ Thanks to Humdinger for his QuickLaunch application which provided the inspirati
 
 
 Version History:
+
+Version 1.0.1- 10/25/2016
+	-Using system defined colors for the list
+	-Layout and wording changes in the options window
 
 Version 1.0- 4/19/2010
 	-Initial Release
