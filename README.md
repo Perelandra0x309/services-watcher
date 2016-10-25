@@ -6,5 +6,5 @@ Monitor services status on Haiku OS
 <p><b>ServicesWatcher Homepage:</b>
 <p><a href="https://perelandra0x309.github.io/services-watcher">https://perelandra0x309.github.io/services-watcher</a>
 <p><b>ReadMe:</b>
-<p><a href="https://github.com/Perelandra0x309/einsteinium/blob/master/docs/Read Me">https://github.com/Perelandra0x309/einsteinium/blob/master/docs/Read Me</a>
+<p><a href="https://github.com/Perelandra0x309/services-watcher/blob/master/ReadMe">https://github.com/Perelandra0x309/services-watcher/blob/master/ReadMe</a>
 
